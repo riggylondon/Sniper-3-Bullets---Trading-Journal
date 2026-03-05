@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sniper 3 Bullets - Trading Journal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        .dashboard { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; }
+        .card { background: #ecf0f1; padding: 15px; border-radius: 8px; width: 30%; text-align: center; font-size: 1.2em; font-weight: bold; min-width: 200px; margin-bottom: 10px; }
+        .text-green { color: #27ae60; }
+        .text-red { color: #c0392b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; vertical-align: middle; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        /* Badge Design */
+        .session-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.85em; font-weight: normal; color: white; }
+        
+        canvas { max-width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎯 Sniper 3 Bullets - Forward Test Journal</h1>
+    
+    <div class="dashboard">
+        <div class="card">Initial Balance: <br> $<span id="initialBalance">10000.00</span></div>
+        <div class="card">Current Balance: <br> $<span id="currentBalance">---</span></div>
+        <div class="card">Net Profit: <br> $<span id="netProfit" class="text-green">---</span></div>
+    </div>
+
+    <canvas id="equityChart" height="100"></canvas>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Time (Close)</th>
+                <th>Session</th> 
+                <th>Type</th>
+                <th>Lot</th>
+                <th>Entry</th>
+                <th>S/L</th>
+                <th>T/P</th>
+                <th>Close</th>
+                <th>Profit (USD)</th>
+            </tr>
+        </thead>
+        <tbody id="tradeTableBody">
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // ==========================================
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 4) ⬇️
+    // ==========================================
+    const trades = [
+        // Day 1
+        { id: 1, time: "2026.03.02 06:36:15", session: "Asian", type: "Buy", lot: 1.00, entry: 5378.05, sl: 5374.02, tp: 5380.12, close: 5376.88, profit: -117.00 },
+        { id: 2, time: "2026.03.02 06:45:07", session: "Asian", type: "Buy", lot: 1.00, entry: 5375.52, sl: 5374.15, tp: null, close: 5377.55, profit: 203.00 },
+        { id: 3, time: "2026.03.02 06:47:17", session: "Asian", type: "Buy", lot: 1.00, entry: 5378.10, sl: 5374.09, tp: 5382.16, close: 5380.77, profit: 267.00 },
+        
+        // Day 2
+        { id: 4, time: "2026.03.03 08:27:07", session: "Pre-London", type: "Buy", lot: 1.00, entry: 5314.29, sl: 5312.93, tp: null, close: 5316.81, profit: 252.00 },
+        { id: 5, time: "2026.03.03 08:27:08", session: "Pre-London", type: "Buy", lot: 1.00, entry: 5316.29, sl: 5313.12, tp: 5319.40, close: 5316.51, profit: 22.00 },
+        { id: 6, time: "2026.03.03 08:34:37", session: "Pre-London", type: "Buy", lot: 1.00, entry: 5306.47, sl: null, tp: 5310.10, close: 5302.83, profit: -364.00 },
+        { id: 7, time: "2026.03.03 08:54:46", session: "Pre-London", type: "Buy", lot: 1.00, entry: 5301.39, sl: null, tp: null, close: 5303.54, profit: 215.00 },
+
+        // Day 3
+        { id: 8, time: "2026.03.04 06:49:44", session: "Asian", type: "Sell", lot: 1.00, entry: 5152.23, sl: 5154.48, tp: 5148.05, close: 5151.24, profit: 99.00 },
+        { id: 9, time: "2026.03.04 06:49:45", session: "Asian", type: "Sell", lot: 1.00, entry: 5153.17, sl: 5154.39, tp: null, close: 5151.60, profit: 157.00 },
+        { id: 10, time: "2026.03.04 06:50:05", session: "Asian", type: "Sell", lot: 1.00, entry: 5148.08, sl: 5154.29, tp: 5142.08, close: 5148.04, profit: 4.00 },
+        { id: 11, time: "2026.03.04 06:51:46", session: "Asian", type: "Sell", lot: 1.00, entry: 5156.15, sl: 5159.98, tp: 5152.24, close: 5153.41, profit: 274.00 },
+
+        // Day 4 (New Update)
+        { id: 12, time: "2026.03.05 07:43:04", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.27, sl: null, tp: null, close: 5164.09, profit: 129.80 },
+        { id: 13, time: "2026.03.05 07:43:07", session: "Asian", type: "Sell", lot: 1.00, entry: 5164.04, sl: 5166.05, tp: 5162.00, close: 5163.73, profit: 31.00 },
+        { id: 14, time: "2026.03.05 07:46:09", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.21, sl: null, tp: null, close: 5162.79, profit: 266.20 }
+    ];
+    // ==========================================
+
+    const initialBalance = 10000.00;
+    let currentBalance = initialBalance;
+    let balanceHistory = [initialBalance];
+    let tradeLabels = ["Start"];
+
+    const tbody = document.getElementById("tradeTableBody");
+    
+    trades.forEach((trade, index) => {
+        currentBalance += trade.profit;
+        balanceHistory.push(currentBalance);
+        tradeLabels.push("Trade " + (index + 1));
+
+        let profitClass = trade.profit >= 0 ? "text-green" : "text-red";
+        
+        // กำหนดสี Buy=Blue / Sell=Red
+        let typeColor = trade.type === 'Buy' ? 'blue' : 'red';
+        
+        // กำหนดสีของ Session Badge ตามชื่อ Session
+        let badgeColor = "#95a5a6"; // สีเทา (ค่าเริ่มต้น)
+        if(trade.session.includes("Asian")) badgeColor = "#f39c12"; // ส้ม
+        else if(trade.session.includes("Pre-London")) badgeColor = "#8e44ad"; // ม่วง
+        else if(trade.session.includes("London")) badgeColor = "#3498db"; // ฟ้า
+        else if(trade.session.includes("New York")) badgeColor = "#c0392b"; // แดง
+
+        let row = `<tr>
+            <td>${trade.id}</td>
+            <td>${trade.time}</td>
+            <td><span class="session-badge" style="background-color:${badgeColor}">${trade.session}</span></td>
+            <td style="color:${typeColor}; font-weight:bold;">${trade.type}</td>
+            <td>${trade.lot.toFixed(2)}</td>
+            <td>${trade.entry.toFixed(2)}</td>
+            <td>${trade.sl ? trade.sl.toFixed(2) : '-'}</td>
+            <td>${trade.tp ? trade.tp.toFixed(2) : '-'}</td>
+            <td>${trade.close.toFixed(2)}</td>
+            <td class="${profitClass}"><strong>${trade.profit > 0 ? '+' : ''}${trade.profit.toFixed(2)}</strong></td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+
+    let netProfit = currentBalance - initialBalance;
+    
+    const fmt = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    document.getElementById("currentBalance").innerText = fmt.format(currentBalance);
+    document.getElementById("netProfit").innerText = (netProfit > 0 ? "+" : "") + fmt.format(netProfit);
+    document.getElementById("netProfit").className = netProfit >= 0 ? "text-green" : "text-red";
+
+    // --- วาดกราฟ ---
+    const ctx = document.getElementById('equityChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: tradeLabels,
+            datasets: [{
+                label: 'Equity Curve (Balance)',
+                data: balanceHistory,
+                borderColor: '#2980b9',
+                backgroundColor: 'rgba(41, 128, 185, 0.2)',
+                borderWidth: 2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: '#2980b9',
+                fill: true,
+                tension: 0.2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { 
+                y: { 
+                    beginAtZero: false,
+                    ticks: { callback: function(value) { return '$' + value; } }
+                } 
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
