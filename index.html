@@ -59,7 +59,7 @@
 
 <script>
     // ==========================================
-    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 4) ⬇️
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 5) ⬇️
     // ==========================================
     const trades = [
         // Day 1
@@ -79,10 +79,18 @@
         { id: 10, time: "2026.03.04 06:50:05", session: "Asian", type: "Sell", lot: 1.00, entry: 5148.08, sl: 5154.29, tp: 5142.08, close: 5148.04, profit: 4.00 },
         { id: 11, time: "2026.03.04 06:51:46", session: "Asian", type: "Sell", lot: 1.00, entry: 5156.15, sl: 5159.98, tp: 5152.24, close: 5153.41, profit: 274.00 },
 
-        // Day 4 (New Update)
+        // Day 4
         { id: 12, time: "2026.03.05 07:43:04", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.27, sl: null, tp: null, close: 5164.09, profit: 129.80 },
         { id: 13, time: "2026.03.05 07:43:07", session: "Asian", type: "Sell", lot: 1.00, entry: 5164.04, sl: 5166.05, tp: 5162.00, close: 5163.73, profit: 31.00 },
-        { id: 14, time: "2026.03.05 07:46:09", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.21, sl: null, tp: null, close: 5162.79, profit: 266.20 }
+        { id: 14, time: "2026.03.05 07:46:09", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.21, sl: null, tp: null, close: 5162.79, profit: 266.20 },
+
+        // Day 5 (New Update - Emotional Rollercoaster)
+        { id: 15, time: "2026.03.06 05:55:20", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.94, sl: 5122.70, tp: 5116.89, close: 5116.89, profit: 335.50 },
+        { id: 16, time: "2026.03.06 05:59:00", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.81, sl: 5122.89, tp: 5116.82, close: 5116.82, profit: 328.90 },
+        { id: 17, time: "2026.03.06 06:06:40", session: "Asian", type: "Sell", lot: 1.10, entry: 5113.38, sl: 5116.16, tp: 5110.40, close: 5116.16, profit: -305.80 },
+        { id: 18, time: "2026.03.06 06:07:45", session: "Asian", type: "Sell", lot: 1.10, entry: 5116.60, sl: 5119.38, tp: 5113.57, close: 5119.38, profit: -305.80 },
+        { id: 19, time: "2026.03.06 06:08:17", session: "Asian", type: "Sell", lot: 1.10, entry: 5120.40, sl: null, tp: null, close: 5121.48, profit: -118.80 },
+        { id: 20, time: "2026.03.06 06:09:30", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.83, sl: 5122.23, tp: 5116.16, close: 5117.40, profit: 267.30 }
     ];
     // ==========================================
 
@@ -100,15 +108,14 @@
 
         let profitClass = trade.profit >= 0 ? "text-green" : "text-red";
         
-        // กำหนดสี Buy=Blue / Sell=Red
         let typeColor = trade.type === 'Buy' ? 'blue' : 'red';
         
-        // กำหนดสีของ Session Badge ตามชื่อ Session
-        let badgeColor = "#95a5a6"; // สีเทา (ค่าเริ่มต้น)
-        if(trade.session.includes("Asian")) badgeColor = "#f39c12"; // ส้ม
-        else if(trade.session.includes("Pre-London")) badgeColor = "#8e44ad"; // ม่วง
-        else if(trade.session.includes("London")) badgeColor = "#3498db"; // ฟ้า
-        else if(trade.session.includes("New York")) badgeColor = "#c0392b"; // แดง
+        // Session Badge Color Logic
+        let badgeColor = "#95a5a6";
+        if(trade.session.includes("Asian")) badgeColor = "#f39c12"; 
+        else if(trade.session.includes("Pre-London")) badgeColor = "#8e44ad"; 
+        else if(trade.session.includes("London")) badgeColor = "#3498db"; 
+        else if(trade.session.includes("New York")) badgeColor = "#c0392b"; 
 
         let row = `<tr>
             <td>${trade.id}</td>
