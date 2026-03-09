@@ -59,9 +59,9 @@
 
 <script>
     // ==========================================
-    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 5) ⬇️
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 6) ⬇️
     // ==========================================
-    const trades = [
+    const trades =[
         // Day 1
         { id: 1, time: "2026.03.02 06:36:15", session: "Asian", type: "Buy", lot: 1.00, entry: 5378.05, sl: 5374.02, tp: 5380.12, close: 5376.88, profit: -117.00 },
         { id: 2, time: "2026.03.02 06:45:07", session: "Asian", type: "Buy", lot: 1.00, entry: 5375.52, sl: 5374.15, tp: null, close: 5377.55, profit: 203.00 },
@@ -84,13 +84,18 @@
         { id: 13, time: "2026.03.05 07:43:07", session: "Asian", type: "Sell", lot: 1.00, entry: 5164.04, sl: 5166.05, tp: 5162.00, close: 5163.73, profit: 31.00 },
         { id: 14, time: "2026.03.05 07:46:09", session: "Asian", type: "Sell", lot: 1.10, entry: 5165.21, sl: null, tp: null, close: 5162.79, profit: 266.20 },
 
-        // Day 5 (New Update - Emotional Rollercoaster)
+        // Day 5
         { id: 15, time: "2026.03.06 05:55:20", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.94, sl: 5122.70, tp: 5116.89, close: 5116.89, profit: 335.50 },
         { id: 16, time: "2026.03.06 05:59:00", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.81, sl: 5122.89, tp: 5116.82, close: 5116.82, profit: 328.90 },
         { id: 17, time: "2026.03.06 06:06:40", session: "Asian", type: "Sell", lot: 1.10, entry: 5113.38, sl: 5116.16, tp: 5110.40, close: 5116.16, profit: -305.80 },
         { id: 18, time: "2026.03.06 06:07:45", session: "Asian", type: "Sell", lot: 1.10, entry: 5116.60, sl: 5119.38, tp: 5113.57, close: 5119.38, profit: -305.80 },
         { id: 19, time: "2026.03.06 06:08:17", session: "Asian", type: "Sell", lot: 1.10, entry: 5120.40, sl: null, tp: null, close: 5121.48, profit: -118.80 },
-        { id: 20, time: "2026.03.06 06:09:30", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.83, sl: 5122.23, tp: 5116.16, close: 5117.40, profit: 267.30 }
+        { id: 20, time: "2026.03.06 06:09:30", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.83, sl: 5122.23, tp: 5116.16, close: 5117.40, profit: 267.30 },
+
+        // Day 6 (New Update - Clean & Disciplined)
+        { id: 21, time: "2026.03.09 08:15:37", session: "Asian", type: "Buy", lot: 1.10, entry: 5095.39, sl: null, tp: null, close: 5097.46, profit: 227.70 },
+        { id: 22, time: "2026.03.09 08:16:30", session: "Asian", type: "Buy", lot: 1.10, entry: 5096.20, sl: null, tp: null, close: 5098.37, profit: 238.70 },
+        { id: 23, time: "2026.03.09 08:18:38", session: "Asian", type: "Sell", lot: 1.10, entry: 5105.16, sl: null, tp: null, close: 5104.12, profit: 114.40 }
     ];
     // ==========================================
 
@@ -146,7 +151,7 @@
         type: 'line',
         data: {
             labels: tradeLabels,
-            datasets: [{
+            datasets:[{
                 label: 'Equity Curve (Balance)',
                 data: balanceHistory,
                 borderColor: '#2980b9',
