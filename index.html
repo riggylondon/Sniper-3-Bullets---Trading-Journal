@@ -59,7 +59,7 @@
 
 <script>
     // ==========================================
-    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 6) ⬇️
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 7) ⬇️
     // ==========================================
     const trades =[
         // Day 1
@@ -92,10 +92,15 @@
         { id: 19, time: "2026.03.06 06:08:17", session: "Asian", type: "Sell", lot: 1.10, entry: 5120.40, sl: null, tp: null, close: 5121.48, profit: -118.80 },
         { id: 20, time: "2026.03.06 06:09:30", session: "Asian", type: "Sell", lot: 1.10, entry: 5119.83, sl: 5122.23, tp: 5116.16, close: 5117.40, profit: 267.30 },
 
-        // Day 6 (New Update - Clean & Disciplined)
+        // Day 6
         { id: 21, time: "2026.03.09 08:15:37", session: "Asian", type: "Buy", lot: 1.10, entry: 5095.39, sl: null, tp: null, close: 5097.46, profit: 227.70 },
         { id: 22, time: "2026.03.09 08:16:30", session: "Asian", type: "Buy", lot: 1.10, entry: 5096.20, sl: null, tp: null, close: 5098.37, profit: 238.70 },
-        { id: 23, time: "2026.03.09 08:18:38", session: "Asian", type: "Sell", lot: 1.10, entry: 5105.16, sl: null, tp: null, close: 5104.12, profit: 114.40 }
+        { id: 23, time: "2026.03.09 08:18:38", session: "Asian", type: "Sell", lot: 1.10, entry: 5105.16, sl: null, tp: null, close: 5104.12, profit: 114.40 },
+
+        // Day 7 (New Update - Strict Stop & Discipline)
+        { id: 24, time: "2026.03.10 08:39:45", session: "Asian", type: "Sell", lot: 1.20, entry: 5188.08, sl: null, tp: 5185.89, close: 5190.61, profit: -303.60 },
+        { id: 25, time: "2026.03.10 08:54:34", session: "Asian", type: "Buy", lot: 1.20, entry: 5189.97, sl: 5187.48, tp: null, close: 5187.48, profit: -298.80 },
+        { id: 26, time: "2026.03.10 08:56:16", session: "Asian", type: "Buy", lot: 1.20, entry: 5188.71, sl: 5186.19, tp: 5194.07, close: 5186.19, profit: -302.40 }
     ];
     // ==========================================
 
@@ -112,7 +117,6 @@
         tradeLabels.push("Trade " + (index + 1));
 
         let profitClass = trade.profit >= 0 ? "text-green" : "text-red";
-        
         let typeColor = trade.type === 'Buy' ? 'blue' : 'red';
         
         // Session Badge Color Logic
