@@ -59,7 +59,7 @@
 
 <script>
     // ==========================================
-    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 7) ⬇️
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 8) ⬇️
     // ==========================================
     const trades =[
         // Day 1
@@ -97,10 +97,15 @@
         { id: 22, time: "2026.03.09 08:16:30", session: "Asian", type: "Buy", lot: 1.10, entry: 5096.20, sl: null, tp: null, close: 5098.37, profit: 238.70 },
         { id: 23, time: "2026.03.09 08:18:38", session: "Asian", type: "Sell", lot: 1.10, entry: 5105.16, sl: null, tp: null, close: 5104.12, profit: 114.40 },
 
-        // Day 7 (New Update - Strict Stop & Discipline)
+        // Day 7
         { id: 24, time: "2026.03.10 08:39:45", session: "Asian", type: "Sell", lot: 1.20, entry: 5188.08, sl: null, tp: 5185.89, close: 5190.61, profit: -303.60 },
         { id: 25, time: "2026.03.10 08:54:34", session: "Asian", type: "Buy", lot: 1.20, entry: 5189.97, sl: 5187.48, tp: null, close: 5187.48, profit: -298.80 },
-        { id: 26, time: "2026.03.10 08:56:16", session: "Asian", type: "Buy", lot: 1.20, entry: 5188.71, sl: 5186.19, tp: 5194.07, close: 5186.19, profit: -302.40 }
+        { id: 26, time: "2026.03.10 08:56:16", session: "Asian", type: "Buy", lot: 1.20, entry: 5188.71, sl: 5186.19, tp: 5194.07, close: 5186.19, profit: -302.40 },
+
+        // Day 8 (New Update)
+        { id: 27, time: "2026.03.11 08:40:00", session: "Asian", type: "Sell", lot: 1.10, entry: 5183.44, sl: 5186.61, tp: 5180.46, close: 5186.61, profit: -348.70 },
+        { id: 28, time: "2026.03.11 08:42:00", session: "Asian", type: "Sell", lot: 1.10, entry: 5185.05, sl: 5186.66, tp: 5181.66, close: 5186.66, profit: -177.10 },
+        { id: 29, time: "2026.03.11 08:45:00", session: "Asian", type: "Buy", lot: 1.10, entry: 5181.59, sl: 5178.81, tp: 5186.93, close: 5185.73, profit: 455.40 }
     ];
     // ==========================================
 
@@ -126,8 +131,14 @@
         else if(trade.session.includes("London")) badgeColor = "#3498db"; 
         else if(trade.session.includes("New York")) badgeColor = "#c0392b"; 
 
+        // ตรวจสอบโน้ตพิเศษ (เช่น ไม้ที่ลาก SL หลุดมือ) เพื่อแสดงเป็น Tooltip
+        let noteStr = "";
+        if (trade.id === 17 || trade.id === 18 || trade.id === 19 || trade.id === 20 || trade.id === 28) {
+            noteStr = `<span style="font-size: 0.8em; color: gray; display: block;">(Note/Revenge)</span>`;
+        }
+
         let row = `<tr>
-            <td>${trade.id}</td>
+            <td>${trade.id} ${trade.id===28 ? '<br><span style="font-size:10px;color:orange;">*SL หลุดมือ</span>' : ''}</td>
             <td>${trade.time}</td>
             <td><span class="session-badge" style="background-color:${badgeColor}">${trade.session}</span></td>
             <td style="color:${typeColor}; font-weight:bold;">${trade.type}</td>
