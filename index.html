@@ -59,7 +59,7 @@
 
 <script>
     // ==========================================
-    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 9) ⬇️
+    // ⬇️ ข้อมูลการเทรด (Day 1 - Day 10) ⬇️
     // ==========================================
     const trades =[
         // Day 1
@@ -107,17 +107,22 @@
         { id: 28, time: "2026.03.11 08:42:00", session: "Asian", type: "Sell", lot: 1.10, entry: 5185.05, sl: 5186.66, tp: 5181.66, close: 5186.66, profit: -177.10 },
         { id: 29, time: "2026.03.11 08:45:00", session: "Asian", type: "Buy", lot: 1.10, entry: 5181.59, sl: 5178.81, tp: 5186.93, close: 5185.73, profit: 455.40 },
 
-        // Day 9 (New Update - Perfect Discipline)
+        // Day 9
         { id: 30, time: "2026.03.12 07:14:31", session: "Asian", type: "Sell", lot: 1.10, entry: 5169.14, sl: 5171.02, tp: 5167.14, close: 5167.14, profit: 220.00 },
         { id: 31, time: "2026.03.12 07:29:06", session: "Asian", type: "Sell", lot: 1.10, entry: 5169.12, sl: 5171.12, tp: 5167.12, close: 5171.12, profit: -220.00 },
-        { id: 32, time: "2026.03.12 07:34:22", session: "Asian", type: "Buy", lot: 1.10, entry: 5169.34, sl: 5167.34, tp: 5171.34, close: 5171.34, profit: 220.00 }
+        { id: 32, time: "2026.03.12 07:34:22", session: "Asian", type: "Buy", lot: 1.10, entry: 5169.34, sl: 5167.34, tp: 5171.34, close: 5171.34, profit: 220.00 },
+
+        // Day 10 (New Update - Solid Discipline)
+        { id: 33, time: "2026.03.13 07:45:10", session: "Asian", type: "Buy", lot: 1.10, entry: 5089.32, sl: 5087.32, tp: 5091.32, close: 5091.32, profit: 220.00 },
+        { id: 34, time: "2026.03.13 07:47:51", session: "Asian", type: "Buy", lot: 1.10, entry: 5089.25, sl: 5086.25, tp: 5092.25, close: 5086.25, profit: -330.00 },
+        { id: 35, time: "2026.03.13 07:49:02", session: "Asian", type: "Buy", lot: 1.10, entry: 5087.90, sl: 5084.90, tp: 5090.90, close: 5084.90, profit: -330.00 }
     ];
     // ==========================================
 
     const initialBalance = 10000.00;
     let currentBalance = initialBalance;
     let balanceHistory = [initialBalance];
-    let tradeLabels = ["Start"];
+    let tradeLabels =["Start"];
 
     const tbody = document.getElementById("tradeTableBody");
     
@@ -136,7 +141,7 @@
         else if(trade.session.includes("London")) badgeColor = "#3498db"; 
         else if(trade.session.includes("New York")) badgeColor = "#c0392b"; 
 
-        // ตรวจสอบโน้ตพิเศษ (เช่น ไม้ที่ลาก SL หลุดมือ)
+        // ตรวจสอบโน้ตพิเศษ
         let noteStr = "";
         if (trade.id === 28) {
             noteStr = `<br><span style="font-size:10px;color:orange;">*SL หลุดมือ</span>`;
